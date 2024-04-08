@@ -1,29 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Container, TextField, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-//import { auth } from './firebase/config';
 import { useNavigate } from 'react-router-dom';
 import { db } from './firebase/config';
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import SearchBar from './SearchBar';
-import Owner from './Owner';
 import IconButton from '@mui/material/IconButton';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CarCard from './carCard';
-import Message from './Message'; // Import Message component
+import Message from './Message';
 import NavBar from './NavBar';
 
     const Dashboard =  () => {
         const navigate = useNavigate();
-        const image = process.env.PUBLIC_URL + '/images/backgroundCars.PNG';
+        const image = process.env.PUBLIC_URL + '/images/newbackground2.png';
         const [carListings, setCarListings] = useState([]);
+        const [searchQuery, setSearchQuery] = useState('');
         
 
         useEffect(() => {
             async function fetchCarListings(){
                 try{
-                    //const data = await query(collection(db, 'CarListings'));
                     const dataSnapshot = await getDocs(query(collection(db, 'CarListings')));
-                    //console.log(dataSnapshot.docs);
                     const carListingsData = dataSnapshot.docs.map(doc => doc.data());
                     setCarListings(carListingsData);
                     console.log("Fetch success");
@@ -44,8 +41,18 @@ import NavBar from './NavBar';
                 console.error(error);
             }
         };
+        const handleSearchChange = (event) => {
+            setSearchQuery(event.target.value);
+        };
 
-        
+        const filteredCarListings = carListings.filter(car => {
+            return (
+                car.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                car.location.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        }
+            
+        );
 
         return (
             <main style={{ 
@@ -80,7 +87,11 @@ import NavBar from './NavBar';
                     zIndex: 1
                 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                        <SearchBar style={{ flex: 0.6 }} />
+                        <SearchBar style={{ flex: 0.6 }} 
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                            placeholder="Search by model, location"
+                            /> 
                         <div style={{ display: 'flex', gap: '10px' }}>
                             <Button onClick={() => navigate('./owner')}>
                                 <AccountCircleIcon />
@@ -109,7 +120,7 @@ import NavBar from './NavBar';
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {carListings.map((car, index) => (
+                                {filteredCarListings.map((car, index) => (
                                     <TableRow key={index}>
                                         <TableCell>{car.hostEmail}</TableCell>
                                         <TableCell>{car.model}</TableCell>
@@ -126,19 +137,6 @@ import NavBar from './NavBar';
                             </TableBody>
                         </Table>
                     </TableContainer>
-                {/* <div style={{ 
-                    display: 'flex',
-                    justifyContent: 'flex-start', // Changed back to 'flex-start'
-                    alignItems: 'center',
-                    width: '100%',
-                    marginTop: '40px', // Increased margin-top
-                    paddingLeft: '40px', // Increased padding-left
-                    marginLeft: '250px', // Added margin-left
-                }}> */}
-                {/* <CarCard /> */}
-                
-                {/* </div> */}
-            
             </main>
         );
     }
