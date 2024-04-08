@@ -45,11 +45,7 @@ import NavBar from './NavBar';
             }
         };
 
-        // const handleSessionLogout = () => {
-        //     localStorage.removeItem('sessionToken'); // Clear session token
-        //     localStorage.removeItem('userEmail'); // Clear user's email
-        //     // Redirect or perform other actions after logout
-        // };
+        
 
         return (
             <main style={{ 
@@ -58,10 +54,6 @@ import NavBar from './NavBar';
                 flexDirection: 'column',
                 alignItems: 'center', 
                 justifyContent: 'flex-start',
-                // backgroundImage: `url(${image})`,
-                // backgroundPosition: 'center',
-                // backgroundSize: 'cover',
-                // backgroundRepeat: 'no-repeat',
             }}>
                 { <div style={{
                     position: 'absolute',
@@ -109,11 +101,11 @@ import NavBar from './NavBar';
                                     <TableCell>Model</TableCell>
                                     <TableCell>Year</TableCell>
                                     <TableCell>Mileage</TableCell>
-                                    {/* <TableCell>Start</TableCell>
-                                    <TableCell>End</TableCell> */}
+                                    <TableCell>Start</TableCell>
+                                    <TableCell>End</TableCell>
                                     <TableCell>Location</TableCell>
                                     <TableCell>Price</TableCell>
-                                    {/* <TableCell>Status</TableCell> */}
+                                    <TableCell>Status</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -123,11 +115,11 @@ import NavBar from './NavBar';
                                         <TableCell>{car.model}</TableCell>
                                         <TableCell>{car.year}</TableCell>
                                         <TableCell>{car.mileage}</TableCell>
-                                        {/* <TableCell>{car.startDate}</TableCell>
-                                        <TableCell>{car.endDate}</TableCell> */}
+                                        <TableCell>{new Date(car.startDate.toDate()).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</TableCell>
+                                        <TableCell>{new Date(car.endDate.toDate()).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</TableCell>
                                         <TableCell>{car.location}</TableCell>
                                         <TableCell>{car.price}</TableCell>
-                                        {/* <TableCell>{car.available}</TableCell> */}
+                                        <TableCell>{car.available ? "Available" : "Not Available"}</TableCell>
                                         
                                     </TableRow>
                                 ))}
