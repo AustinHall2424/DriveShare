@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Nav = styled.nav`
-  width: 1440px;
-  height: 50px;
+  width: 100%;
+  height: 5%;
   display: flex;
   align-items: center;
   justify-content: space-between;

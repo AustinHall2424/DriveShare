@@ -16,11 +16,12 @@ const Payment = () => {
 
     return(
         <Container>
-            <NavBar />    
+            <NavBar/>    
+            <br></br><br></br>
             <Typography variant='h4'>Payment</Typography>
             <form onSubmit={handleSubmit}>
             <TextField
-                label="Payment Amount"
+                label="Amount"
                 variant="outlined"
                 fullWidth
                 margin="normal"
