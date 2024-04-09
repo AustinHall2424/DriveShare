@@ -1,46 +1,21 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const Nav = styled.nav`
-  width: 100%;
-  height: 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #00bfff;
-  color: #f0f8ff;
-  padding: 1rem;
-`;
-
-const NavItem = styled.li`
-  list-style: none;
-  margin: 0 1rem;
-
-  a {
-    color: #fff;
-    text-decoration: none;
-    transition: all 0.3s ease;
-
-    &:hover {
-      color: #bada55;
-    }
-  }
-`;
-
-const Logo = styled.h1`
-  font-size: 1.5rem;
-  margin: 0;
-`;
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   return (
-    <Nav>
-      <Logo>DriveShare App</Logo>
-      <ul>
-        <NavItem><a href="/dashboard">Home</a></NavItem>
-        <NavItem><a href="/dashboard/payment">Payment</a></NavItem>
-      </ul>
-    </Nav>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          DriveShare App
+        </Typography>
+        <Box>
+          <Button color="inherit" component={Link} to="/dashboard">Home</Button>
+          <Button color="inherit" component={Link} to="/dashboard/rent/payment">Payment</Button>
+          <Button color="inherit" component={Link} to="/dashboard/messageboard">Message Board</Button>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 

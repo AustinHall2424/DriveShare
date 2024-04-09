@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, TextField, List, ListItem, ListItemText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { db } from './firebase/config';
@@ -9,7 +9,9 @@ const PasswordRecovery = () => {
     const [securityQuestions, setSecurityQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState({});
-    const [showQuestions, setShowQuestions] = useState(false); // Track whether to show security questions
+    const [showQuestions, setShowQuestions] = useState(false);
+    const [password, setPassword] = useState('');
+    const [passwordToShow, setPasswordToShow] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmitEmail = async (e) => {
@@ -22,7 +24,8 @@ const PasswordRecovery = () => {
                 if (userData.email === email && userData.securityQuestions) {
                     const questionsData = Object.entries(userData.securityQuestions).map(([question, answer]) => ({ question, answer }));
                     setSecurityQuestions(questionsData);
-                    setShowQuestions(true); // Show security questions after fetching
+                    setShowQuestions(true);
+                    setPassword(userData.password);
                 } else {
                     console.log('User data or security questions not found');
                 }
@@ -41,14 +44,15 @@ const PasswordRecovery = () => {
         const userAnswer = answers[currentQuestion.question];
         if (userAnswer === currentQuestion.answer) {
             console.log('Correct answer for', currentQuestion.question);
-            // Perform further action if the answer is correct
-            // For now, just move to the next question
+            //setPasswordToShow(true);
             if (currentQuestionIndex < securityQuestions.length - 1) {
                 setCurrentQuestionIndex(currentQuestionIndex + 1);
+            } else {
+                console.log('All security questions answered correctly');
+                setPasswordToShow(true);
             }
         } else {
             console.log('Incorrect answer for', currentQuestion.question);
-            // Show the next question
             if (currentQuestionIndex < securityQuestions.length - 1) {
                 setCurrentQuestionIndex(currentQuestionIndex + 1);
             }
@@ -60,6 +64,10 @@ const PasswordRecovery = () => {
             ...prevAnswers,
             [question]: answer
         }));
+    };
+
+    const handleBackToLogin = () => {
+        navigate('/');
     };
 
     return (
@@ -86,6 +94,13 @@ const PasswordRecovery = () => {
                         onChange={(e) => handleAnswerChange(securityQuestions[currentQuestionIndex].question, e.target.value)}
                     />
                     <Button variant="contained" color="primary" onClick={handleSubmitAnswer}>Submit Answer</Button>
+                </div>
+            )}
+
+            {passwordToShow && (
+                <div>
+                    <p>Your password is: {password}</p>
+                    <Button variant="contained" color="primary" onClick={handleBackToLogin}>Back to Login</Button>
                 </div>
             )}
         </div>

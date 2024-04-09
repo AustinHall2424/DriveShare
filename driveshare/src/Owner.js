@@ -86,7 +86,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
         const handleSnackbarClose = () => {
             setOpenSnackbar(false);
         }
-
+        const handleManage = () => {
+            navigate('/dashboard/owner/manage')
+        }
+            
         return (
             <Container maxWidth="sm" style={{ textAlign: 'center', marginTop: "25px"}}>
                 <Typography variant='h4'>Host Vehicle</Typography>
@@ -156,7 +159,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
                         name="price" 
                         value={price} 
                         onChange={(e) => setPrice(e.target.value)} 
-                        label="Price" 
+                        label="Price per day" 
                         required 
                     />
                     <Button 
@@ -167,6 +170,14 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
                         Add Car
                     </Button>
                 </form>
+                <Button 
+                    variant='contained' 
+                    color='primary' 
+                    onClick={handleManage}
+                    style={{ marginTop: "25px"}}
+                >
+                    Manage Listings
+                </Button>
                 <Snackbar
                 open={openSnackbar}
                 autoHideDuration={6000}

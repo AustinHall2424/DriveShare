@@ -7,7 +7,7 @@ import SearchBar from './SearchBar';
 import IconButton from '@mui/material/IconButton';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CarCard from './carCard';
-import Message from './Message';
+import MessageBoard from './MessageBoard';
 import NavBar from './NavBar';
 
     const Dashboard =  () => {
@@ -21,7 +21,11 @@ import NavBar from './NavBar';
             async function fetchCarListings(){
                 try{
                     const dataSnapshot = await getDocs(query(collection(db, 'CarListings')));
-                    const carListingsData = dataSnapshot.docs.map(doc => doc.data());
+                    const carListingsData = dataSnapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                    console.log('car data:', carListingsData)
                     setCarListings(carListingsData);
                     console.log("Fetch success");
                 }catch(error){
@@ -50,9 +54,19 @@ import NavBar from './NavBar';
                 car.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 car.location.toLowerCase().includes(searchQuery.toLowerCase())
             );
-        }
+        });
+
+        const handleRent = (carId, available) => {
+            console.log("car id:", carId);
+            if(available){
+                console.log("Car is available");
+                navigate(`/dashboard/rent/${carId}`);
+            }
+            else{
+                console.log("Car is not available");
+            }
             
-        );
+        };
 
         return (
             <main style={{ 
@@ -80,8 +94,10 @@ import NavBar from './NavBar';
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    paddingTop: '50px', 
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                    paddingTop: '25px', 
+                    paddingBottom: '25px', 
+                    backgroundColor: 'rgba(255, 255, 255)', 
+                    borderRadius: '10px',
                     width: '100%',
                     position: 'relative',
                     zIndex: 1
@@ -92,6 +108,8 @@ import NavBar from './NavBar';
                             onChange={handleSearchChange}
                             placeholder="Search by model, location"
                             /> 
+                        <Button variant='contained' color='primary' onClick={() => navigate('/dashbaord/rentalHistory')}>Rental History</Button>  
+                        <Button variant='contained' color='primary' onClick={() => navigate('/dashboard/review')}>Review</Button>    
                         <div style={{ display: 'flex', gap: '10px' }}>
                             <Button onClick={() => navigate('./owner')}>
                                 <AccountCircleIcon />
@@ -117,6 +135,7 @@ import NavBar from './NavBar';
                                     <TableCell>Location</TableCell>
                                     <TableCell>Price</TableCell>
                                     <TableCell>Status</TableCell>
+                                    <TableCell>Action</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -131,6 +150,8 @@ import NavBar from './NavBar';
                                         <TableCell>{car.location}</TableCell>
                                         <TableCell>{car.price}</TableCell>
                                         <TableCell>{car.available ? "Available" : "Not Available"}</TableCell>
+                                        <TableCell> <Button variant='contained' color='primary' onClick={() => handleRent(car.id, car.available)}>Rent</Button> 
+                                        </TableCell>
                                         
                                     </TableRow>
                                 ))}
