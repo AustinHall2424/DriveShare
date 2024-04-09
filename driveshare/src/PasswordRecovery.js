@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, TextField, List, ListItem, ListItemText } from '@mui/material';
+import { Button, TextField, ListItemText, Snackbar, Alert  } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { db } from './firebase/config';
 import { collection, getDocs, where, query } from 'firebase/firestore';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const PasswordRecovery = () => {
     const [email, setEmail] = useState('');
@@ -13,6 +14,10 @@ const PasswordRecovery = () => {
     const [password, setPassword] = useState('');
     const [passwordToShow, setPasswordToShow] = useState(false);
     const navigate = useNavigate();
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [message, setMessage] = useState('');
+    const [severity, setSeverity] = useState('');
 
     const handleSubmitEmail = async (e) => {
         e.preventDefault();
@@ -31,10 +36,13 @@ const PasswordRecovery = () => {
                 }
             } else {
                 console.log('User not found');
-            }
+
+                setMessage('Correct!');
+                setSeverity('error');
+                setOpenSnackbar(true);
+                }
         } catch (error) {
             console.error('Error fetching user data:', error);
-            // Handle error, maybe show a snackbar
         }
     };
 
@@ -42,13 +50,23 @@ const PasswordRecovery = () => {
         e.preventDefault();
         const currentQuestion = securityQuestions[currentQuestionIndex];
         const userAnswer = answers[currentQuestion.question];
+
         if (userAnswer === currentQuestion.answer) {
             console.log('Correct answer for', currentQuestion.question);
-            //setPasswordToShow(true);
+            
+            setMessage('Correct!');
+            setSeverity('success');
+            setOpenSnackbar(true);
+
             if (currentQuestionIndex < securityQuestions.length - 1) {
                 setCurrentQuestionIndex(currentQuestionIndex + 1);
             } else {
                 console.log('All security questions answered correctly');
+
+                setMessage('All security questions answered correctly.');
+                setSeverity('success');
+                setOpenSnackbar(true);
+
                 setPasswordToShow(true);
             }
         } else {
@@ -66,13 +84,28 @@ const PasswordRecovery = () => {
         }));
     };
 
-    const handleBackToLogin = () => {
+    const handleBackButton = () => {
         navigate('/');
     };
+    const handleSnackbarClose = () => {
+        setOpenSnackbar(false);
+    }
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <h2>Change your password</h2>
+            <Button
+                variant="contained"
+                startIcon={<ArrowBackIcon />}
+                onClick={handleBackButton}
+                style={{
+                    position: 'absolute',
+                    top: '20px',
+                    left: '20px', 
+                }}
+                >
+                Back
+            </Button>
+            <h2>Password Recovery</h2>
             <form onSubmit={handleSubmitEmail} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <TextField
                     type="email"
@@ -100,9 +133,23 @@ const PasswordRecovery = () => {
             {passwordToShow && (
                 <div>
                     <p>Your password is: {password}</p>
-                    <Button variant="contained" color="primary" onClick={handleBackToLogin}>Back to Login</Button>
+                    <Button variant="contained" color="primary" onClick={handleBackButton}>Back to Login</Button>
                 </div>
             )}
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+                <Alert
+                onClose={handleSnackbarClose}
+                severity={severity}
+                sx={{ width: "100%", background: "black", color: "white"}}
+                >
+                {message}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }

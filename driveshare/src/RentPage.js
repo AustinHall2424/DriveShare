@@ -2,10 +2,9 @@ import {React , useState, useEffect }from "react";
 import { useParams } from 'react-router-dom';
 import { Typography, Button, Container, TextField,  Snackbar, Alert  } from '@mui/material';
 import { db } from './firebase/config';
-import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-//import CardMedia from '@mui/material/CardMedia';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -19,7 +18,6 @@ const RentPage = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
-    const [days, setDays] = useState(0);
 
 
     useEffect(() => {
@@ -65,15 +63,8 @@ const RentPage = () => {
         const differentInMs = endTemp.getTime() - startTemp.getTime();
         let differentInDays = Math.ceil(differentInMs / (1000 * 60 * 60 * 24));
         differentInDays = differentInDays + 1;
-        //console.log("Diff in days", differentInDays);
         const totalCost = differentInDays * carDetails.price;
-        //console.log('total cost:', totalCost);
 
-        //const review = 0;
-        //console.log("carid:", carId);
-        //console.log('user email:', userEmail);
-        //console.log('start date', startTemp);
-        //console.log('end date', endTemp);
 
         const data = {
             listID: carId,
@@ -94,6 +85,11 @@ const RentPage = () => {
             setMessage('Booking successful!');
             setSeverity('success');
             setOpenSnackbar(true);
+
+            await updateDoc(doc(db, 'CarListings', carId), {
+                available: false
+            })
+
             navigate('/dashboard/rent/payment');
         }catch(error){
             setMessage('Error adding booking.');
@@ -101,7 +97,6 @@ const RentPage = () => {
             setOpenSnackbar(true);
             console.error("Error adding booking:", error.message);
         }
-        //console.log('Renting car...');
     };
 
     const handleSnackbarClose = () => {

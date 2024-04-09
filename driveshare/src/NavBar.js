@@ -10,7 +10,8 @@ const NavBar = () => {
           DriveShare App
         </Typography>
         <Box>
-          <Button color="inherit" component={Link} to="/dashboard">Home</Button>
+          <Button color="inherit" component={Link} to="/dashbaord/rentalHistory">Rental History</Button>
+          <Button color="inherit" component={Link} to="/dashboard/review">Review</Button>
           <Button color="inherit" component={Link} to="/dashboard/rent/payment">Payment</Button>
           <Button color="inherit" component={Link} to="/dashboard/messageboard">Message Board</Button>
         </Box>

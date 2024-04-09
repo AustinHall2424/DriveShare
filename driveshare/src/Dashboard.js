@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Container, TextField, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Container, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { db } from './firebase/config';
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, getDocs } from 'firebase/firestore';
 import SearchBar from './SearchBar';
-import IconButton from '@mui/material/IconButton';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import CarCard from './carCard';
-import MessageBoard from './MessageBoard';
 import NavBar from './NavBar';
 
     const Dashboard =  () => {
@@ -96,20 +93,18 @@ import NavBar from './NavBar';
                     justifyContent: 'space-between',
                     paddingTop: '25px', 
                     paddingBottom: '25px', 
-                    backgroundColor: 'rgba(255, 255, 255)', 
+                    backgroundColor: 'rgba(255, 255, 255, 0.98)', 
                     borderRadius: '10px',
                     width: '100%',
                     position: 'relative',
                     zIndex: 1
                 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                        <SearchBar style={{ flex: 0.6 }} 
+                        <SearchBar style={{ flex: 0.8 }} 
                             value={searchQuery}
                             onChange={handleSearchChange}
                             placeholder="Search by model, location"
                             /> 
-                        <Button variant='contained' color='primary' onClick={() => navigate('/dashbaord/rentalHistory')}>Rental History</Button>  
-                        <Button variant='contained' color='primary' onClick={() => navigate('/dashboard/review')}>Review</Button>    
                         <div style={{ display: 'flex', gap: '10px' }}>
                             <Button onClick={() => navigate('./owner')}>
                                 <AccountCircleIcon />

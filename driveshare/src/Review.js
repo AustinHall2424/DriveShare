@@ -1,12 +1,11 @@
 import { React, useEffect, useState} from 'react';
 import { db } from './firebase/config';
-import { collection, query, where, getDocs, doc, getDoc, docs, updateDoc } from 'firebase/firestore';
-import { Container, Typography, TextField, List, ListItem, ListItemText, Snackbar, Divider, Card, CardContent, Alert } from '@mui/material';
+import { collection, query, where, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { Container, Typography, TextField, Snackbar, Divider, Card, CardContent, Alert } from '@mui/material';
 import { Button } from '@mui/material';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-// Define a function to fetch rental history records based on user role
 const Review = () => {
     const navigate = useNavigate();
     const [bookings, setBookings] = useState([]);
@@ -15,8 +14,6 @@ const Review = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
-
-    
 
     useEffect(() => {
         async function fetchUserBookings(){

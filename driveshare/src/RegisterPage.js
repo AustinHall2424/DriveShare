@@ -3,7 +3,6 @@ import { Container, TextField, Button, Typography, Select, MenuItem, Snackbar, A
 import { db } from './firebase/config';
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
-//import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const securityQuestions = [
     "What was the name of your favorite childhood pet?",
@@ -62,7 +61,7 @@ const RegisterPage = () => {
             setOpenSnackbar(true);
 
             console.log('User added with ID: ', userRef.id);
-            navigate('/dashboard')
+            navigate('/');
         } catch(error) {
             setMessage('Registration failed.');
             setSeverity('error');

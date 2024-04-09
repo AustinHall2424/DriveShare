@@ -1,11 +1,10 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
 
 const SearchBar = ({ value, onChange, placeholder }) => {
   return (
-    <Stack spacing={2} sx={{ width: 300 }}>
+    <Stack spacing={2} sx={{ width: "50%" }}>
       <TextField
         value={value}
         onChange={onChange}
