@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Container, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead,Snackbar,Alert, TableRow, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { db } from './firebase/config';
 import { collection, query, getDocs } from 'firebase/firestore';
@@ -12,7 +12,10 @@ import NavBar from './NavBar';
         const image = process.env.PUBLIC_URL + '/images/newbackground2.png';
         const [carListings, setCarListings] = useState([]);
         const [searchQuery, setSearchQuery] = useState('');
-        
+
+        const [openSnackbar, setOpenSnackbar] = useState(false);
+        const [message, setMessage] = useState('');
+        const [severity, setSeverity] = useState('');
 
         useEffect(() => {
             async function fetchCarListings(){
@@ -22,7 +25,7 @@ import NavBar from './NavBar';
                         id: doc.id,
                         ...doc.data()
                     }));
-                    console.log('car data:', carListingsData)
+                    //console.log('car data:', carListingsData)
                     setCarListings(carListingsData);
                     console.log("Fetch success");
                 }catch(error){
@@ -54,16 +57,22 @@ import NavBar from './NavBar';
         });
 
         const handleRent = (carId, available) => {
-            console.log("car id:", carId);
+            //console.log("car id:", carId);
             if(available){
                 console.log("Car is available");
                 navigate(`/dashboard/rent/${carId}`);
             }
             else{
+                setMessage('Car is not available');
+                setSeverity('error');
+                setOpenSnackbar(true);
                 console.log("Car is not available");
             }
             
         };
+        const handleSnackbarClose = () => {
+            setOpenSnackbar(false);
+        }
 
         return (
             <main style={{ 
@@ -153,6 +162,20 @@ import NavBar from './NavBar';
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    <Snackbar
+                        open={openSnackbar}
+                        autoHideDuration={6000}
+                        onClose={handleSnackbarClose}
+                        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                    >
+                        <Alert
+                        onClose={handleSnackbarClose}
+                        severity={severity}
+                        sx={{ width: "100%", background: "black", color: "white"}}
+                        >
+                        {message}
+                        </Alert>
+                    </Snackbar>
             </main>
         );
     }
