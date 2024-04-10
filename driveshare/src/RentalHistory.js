@@ -10,6 +10,7 @@ const RentalHistory = () => {
     const navigate = useNavigate();
     const [bookings, setBookings] = useState([]);
 
+    // Fetch all bookings where the user was the renter
     useEffect(() => {
         async function fetchUserBookings(){
             try{

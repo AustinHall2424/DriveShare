@@ -11,6 +11,7 @@ const Payment = () => {
     const [bookings, setBookings] = useState([]);
     const navigate = useNavigate();
 
+    // Fetch all unpaid bookings for the current User
     useEffect(() => {
         async function fetchBookings(){
             try{
@@ -29,9 +30,8 @@ const Payment = () => {
         fetchBookings();
     }, []);
 
-
+    // Sets the booking to unavailable so that no one else can rent it at the same time
     const handlePay = async (bookingId) => {
-
         try{
             const bookingDocRef = doc(db, 'Bookings', bookingId);
             await updateDoc(bookingDocRef, {

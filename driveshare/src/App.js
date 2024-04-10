@@ -13,6 +13,7 @@ import MessageBoard from './MessageBoard';
 import RentalHistory from './RentalHistory';
 import Review from './Review';
 
+// This holds all the routes for the website
 function App() {
   return (
     <Router>

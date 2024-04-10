@@ -4,6 +4,7 @@ import { db } from './firebase/config';
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 
+// Default security questions
 const securityQuestions = [
     "What was the name of your favorite childhood pet?",
     "What is your favorite sport?",
@@ -31,7 +32,7 @@ const RegisterPage = () => {
     const [severity, setSeverity] = useState('');
     const navigate = useNavigate();
     
-
+    // Register new email and password, checks if email already exists in the system
     const handleSubmit = async (e) => {
         e.preventDefault();
 

@@ -14,7 +14,7 @@ const ManageListings = () => {
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
 
-
+    // Fetch all Listings the current user is hosting
     useEffect(() => {
         async function fetchUserCarListings(){
             try{

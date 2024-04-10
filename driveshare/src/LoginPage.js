@@ -15,6 +15,8 @@ const Login = () => {
     const [severity, setSeverity] = useState('');
     const navigate = useNavigate();
 
+    // Checks if user is registerd, and if password is correct
+    // Generates a sessionToken if successful and navigates the user to the dashboard
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -24,7 +26,6 @@ const Login = () => {
                 const userData = userDoc.data();
 
                 if (userData.password === password) {
-                    // Success
 
                     const sessionToken = generateSessionToken();
                     localStorage.setItem('sessionToken', sessionToken);
@@ -53,6 +54,7 @@ const Login = () => {
         setOpenSnackbar(false);
     }
 
+    // Generates the session token for the user
     const generateSessionToken = () => {
         // Generate a random string using characters from A-Z, a-z, and 0-9
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

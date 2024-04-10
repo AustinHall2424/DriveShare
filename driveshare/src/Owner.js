@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-//import { useDispatch } from 'react-redux';
-//import { addCar, updateCar } from './carActions'; // assuming you have these actions defined in your Redux setup
 import { Container, TextField, Button, Typography, Snackbar, Alert } from '@mui/material';
 import { db } from './firebase/config';
 import { Timestamp, addDoc, collection } from 'firebase/firestore';
@@ -21,7 +19,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
         const [openSnackbar, setOpenSnackbar] = useState(false);
         const [message, setMessage] = useState('');
         const [severity, setSeverity] = useState('');
-        //const [value, setValue] = useState([null, null]);
 
 
         const handleSubmit = async (e) => {
@@ -37,10 +34,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
             const userEmail = localStorage.getItem('userEmail');
             const mileageInt = parseInt(mileage, 10);
             const priceFloat = parseFloat(price);
+            // Convert data types to be usable
             const startTemp = new Date(availabilityStart + "T00:00:00");
             const endTemp = new Date(availabilityEnd + "T00:00:00");
-            //const startDateStamp = firebase.firestore.Timestamp.fromDate(startTemp);
-            //const endDateStamp = new Timestamp.fromMillis(endTemp.getTime());
 
             if (isNaN(mileageInt) || isNaN(priceFloat)){
                 setMessage('Mileage or price is not a number.');
@@ -74,10 +70,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
                 console.error("Error adding car:", error);
             }
 
-
-            //const item = localStorage.getItem('userEmail');
-            //console.log(data);
-            //navigate('/dashboard');
         };
 
         const handleBackButton = () => {

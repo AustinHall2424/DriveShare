@@ -46,6 +46,7 @@ const PasswordRecovery = () => {
         }
     };
 
+    // This handle implements COR Pattern, user has to get all three questions right to get password
     const handleSubmitAnswer = async (e) => {
         e.preventDefault();
         const currentQuestion = securityQuestions[currentQuestionIndex];

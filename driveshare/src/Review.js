@@ -15,6 +15,7 @@ const Review = () => {
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
 
+    // Fetch all the bookings of the user
     useEffect(() => {
         async function fetchUserBookings(){
             try{
@@ -63,7 +64,6 @@ const Review = () => {
 
     const handleSubmit = async (rentalId) => {
         try {
-            // Update renterReview and hostReview in the database
             const docRef = doc(db, 'Bookings', rentalId);
             await updateDoc(docRef, {
                 renterReview: renterReview,

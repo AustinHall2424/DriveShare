@@ -25,7 +25,6 @@ import NavBar from './NavBar';
                         id: doc.id,
                         ...doc.data()
                     }));
-                    //console.log('car data:', carListingsData)
                     setCarListings(carListingsData);
                     console.log("Fetch success");
                 }catch(error){
@@ -57,7 +56,6 @@ import NavBar from './NavBar';
         });
 
         const handleRent = (carId, available) => {
-            //console.log("car id:", carId);
             if(available){
                 console.log("Car is available");
                 navigate(`/dashboard/rent/${carId}`);

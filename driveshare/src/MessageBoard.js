@@ -15,7 +15,7 @@ const MessageBoard = () => {
     const [severity, setSeverity] = useState('');
     const navigate = useNavigate();
     
-
+    // Fetch all messages the user has sent or received
     useEffect(() => {
         async function fetchMessages() {
             try {
@@ -74,7 +74,6 @@ const MessageBoard = () => {
                 return;
             }
             const currentTime = new Date();
-            //console.log(currentTime);
             await addDoc(collection(db, 'Messages'), {
                 senderEmail: localStorage.getItem('userEmail'),
                 recipientEmail: email,
