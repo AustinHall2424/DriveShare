@@ -12,7 +12,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const RentPage = () => {
     // Gets carId out of parameters
     const { carId } = useParams();
-    
+
     const [carDetails, setCarDetails] = useState(null);
     const [rentStart, setRentStart] = useState('');
     const [rentEnd, setRentEnd] = useState('');

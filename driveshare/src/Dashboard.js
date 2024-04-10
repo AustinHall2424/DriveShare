@@ -17,6 +17,7 @@ import NavBar from './NavBar';
         const [message, setMessage] = useState('');
         const [severity, setSeverity] = useState('');
 
+        // Fetch all CarListings to display on the UI
         useEffect(() => {
             async function fetchCarListings(){
                 try{

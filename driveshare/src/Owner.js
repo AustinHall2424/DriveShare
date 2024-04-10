@@ -20,7 +20,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
         const [message, setMessage] = useState('');
         const [severity, setSeverity] = useState('');
 
-
+        // Creates a document holding the attributes of a CarListing and inserts into the database
+        // Uses the builder pattern
         const handleSubmit = async (e) => {
             e.preventDefault();
 
